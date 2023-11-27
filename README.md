@@ -1,12 +1,18 @@
 # factorial_project
 factorial_project
 
-Terminal Command to install dependencies:
+### Terminal commands
+To install dependencies:
 ```
 go get github.com/julienschmidt/httprouter
 ```
 
-Terminal Command in Terminal to run server at 8989 port:
+To run server at 8989 port:
 ```
 go run main.go
+```
+
+To run factorial tests:
+```
+go test ./Factorial
 ```
