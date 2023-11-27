@@ -1,4 +1,4 @@
-module factorial-calculator
+module factorial_project
 
 go 1.20
 

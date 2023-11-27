@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"factorial_project/factorial"
 	"fmt"
 	"math/big"
 	"net/http"
-	"sync"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -18,38 +18,6 @@ type RequestBody struct {
 type ResponseBody struct {
 	AFactorial *big.Int `json:"a_factorial"`
 	BFactorial *big.Int `json:"b_factorial"`
-}
-
-func factorial(n int) *big.Int {
-	fact := big.NewInt(1)
-	for i := 2; i <= n; i++ {
-		fact.Mul(fact, big.NewInt(int64(i)))
-	}
-	return fact
-}
-
-func calculateFactorials(a, b int) map[string]*big.Int {
-	var wg sync.WaitGroup
-	result := make(map[string]*big.Int)
-
-	var a_factorial, b_factorial *big.Int
-
-	wg.Add(2)
-	go func() {
-		defer wg.Done()
-		a_factorial = factorial(a)
-	}()
-	go func() {
-		defer wg.Done()
-		b_factorial = factorial(b)
-	}()
-
-	wg.Wait()
-
-	result["a_factorial"] = a_factorial
-	result["b_factorial"] = b_factorial
-
-	return result
 }
 
 func calculateHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -67,7 +35,7 @@ func calculateHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 		return
 	}
 
-	result := calculateFactorials(requestBody.A, requestBody.B)
+	result := factorial.СalculateFactorials(requestBody.A, requestBody.B)
 
 	// Close the channel once all goroutines are done
 
