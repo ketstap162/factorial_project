@@ -9,18 +9,19 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func CalculateHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func CalculateHandler(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	// Parse JSON request body
 	var requestBody HttpUtils.FactirualRequestBody
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&requestBody)
-	if err != nil {
-		http.Error(w, "Error decoding JSON", http.StatusBadRequest)
+	decoder := json.NewDecoder(request.Body)
+	error := decoder.Decode(&requestBody)
+
+	if error != nil {
+		http.Error(writer, "Error decoding JSON", http.StatusBadRequest)
 		return
 	}
 
 	if requestBody.A < 0 || requestBody.B < 0 {
-		http.Error(w, `{"error":"Incorrect input"}`, http.StatusBadRequest)
+		http.Error(writer, `{"error":"Incorrect input"}`, http.StatusBadRequest)
 		return
 	}
 
@@ -31,6 +32,6 @@ func CalculateHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 		BFactorial: result["b_factorial"],
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	writer.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(writer).Encode(response)
 }
