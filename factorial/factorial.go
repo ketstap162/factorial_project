@@ -1,4 +1,4 @@
-package factorial
+package Factorial
 
 import (
 	"math/big"
@@ -13,7 +13,7 @@ func factorial(n int) *big.Int {
 	return fact
 }
 
-func СalculateFactorials(a, b int) map[string]*big.Int {
+func CalculateFactorials(a, b int) map[string]*big.Int {
 	var wg sync.WaitGroup
 	result := make(map[string]*big.Int)
 
